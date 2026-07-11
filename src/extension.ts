@@ -154,30 +154,6 @@ export async function activate(context: vscode.ExtensionContext) {
 		vscode.commands.registerCommand('kanboard.showTeamActivity', () => applyActivityScope(true)),
 		vscode.commands.registerCommand('kanboard.showMyActivityOnly', () => applyActivityScope(false)),
 
-		vscode.commands.registerCommand('kanboard.diagnostics', async () => {
-			const client = session.client;
-			if (!client) {
-				vscode.window.showWarningMessage('Kanboard: connect first (Kanboard: Connect to Kanboard).');
-				return;
-			}
-			const channel = vscode.window.createOutputChannel('Kanboard Diagnostics');
-			context.subscriptions.push(channel);
-			channel.clear();
-			channel.show(true);
-			channel.appendLine(`Instance: ${client.instanceUrl}`);
-			const methods = ['getMe', 'getVersion', 'getMyProjectsList', 'getMyProjects', 'getMyDashboard', 'getMyOverdueTasks'];
-			for (const method of methods) {
-				channel.appendLine(`\n========== ${method} ==========`);
-				try {
-					const result = await client.request<unknown>(method);
-					const json = JSON.stringify(result, null, 2) ?? 'null';
-					channel.appendLine(json.length > 6000 ? json.slice(0, 6000) + '\n… (truncated)' : json);
-				} catch (err) {
-					channel.appendLine(`ERROR: ${err instanceof Error ? err.message : String(err)}`);
-				}
-			}
-		}),
-
 		vscode.commands.registerCommand('kanboard.createTask', async () => {
 			const client = session.client;
 			if (!client) {
