@@ -2,6 +2,10 @@
 
 All notable changes to the "Kanboard" extension will be documented in this file.
 
+## [0.0.2]
+
+- Removed the Diagnostics command: its raw `getMe` dump included the user's API token in plaintext, which could easily be leaked when sharing the output in bug reports.
+
 ## [0.0.1]
 
 Initial release.

@@ -30,10 +30,6 @@ URL and username are stored in user settings (`kanboard.url`, `kanboard.username
 
 To disconnect and delete the token: **Kanboard: Disconnect**.
 
-## Troubleshooting
-
-Run **Kanboard: Diagnostics (dump raw API responses)** to see exactly what your instance returns for each API method.
-
 ## Development
 
 ```bash
