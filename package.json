@@ -2,7 +2,7 @@
   "name": "kanboard",
   "displayName": "Kanboard",
   "description": "Kanboard integration: browse your projects, tasks and activity, create and manage tasks without leaving the editor",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "nachoaguirre",
   "license": "MIT",
   "icon": "resources/icon.png",
