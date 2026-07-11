@@ -1,0 +1,274 @@
+{
+  "name": "kanboard",
+  "displayName": "Kanboard",
+  "description": "Kanboard integration: browse your projects, tasks and activity, create and manage tasks without leaving the editor",
+  "version": "0.0.1",
+  "publisher": "nachoaguirre",
+  "license": "MIT",
+  "icon": "resources/icon.png",
+  "galleryBanner": {
+    "color": "#00587A",
+    "theme": "dark"
+  },
+  "pricing": "Free",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nachoaguirre/kanboard-org-vs-code-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nachoaguirre/kanboard-org-vs-code-plugin/issues"
+  },
+  "homepage": "https://github.com/nachoaguirre/kanboard-org-vs-code-plugin#readme",
+  "engines": {
+    "vscode": "^1.125.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "kanboard",
+    "kanban",
+    "tasks",
+    "project management",
+    "agile"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "kanboard",
+          "title": "Kanboard",
+          "icon": "resources/kanboard.svg"
+        }
+      ]
+    },
+    "views": {
+      "kanboard": [
+        {
+          "id": "kanboard.dashboard",
+          "name": "My Dashboard"
+        },
+        {
+          "id": "kanboard.myTasks",
+          "name": "My Tasks"
+        },
+        {
+          "id": "kanboard.overdueTasks",
+          "name": "Overdue Tasks"
+        },
+        {
+          "id": "kanboard.activity",
+          "name": "My Activity"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "kanboard.dashboard",
+        "contents": "Connect to your Kanboard instance to see your projects, tasks and activity.\n[Connect to Kanboard](command:kanboard.connect)",
+        "when": "!kanboard.connected"
+      }
+    ],
+    "commands": [
+      {
+        "command": "kanboard.connect",
+        "title": "Connect to Kanboard",
+        "category": "Kanboard"
+      },
+      {
+        "command": "kanboard.disconnect",
+        "title": "Disconnect",
+        "category": "Kanboard"
+      },
+      {
+        "command": "kanboard.refresh",
+        "title": "Refresh",
+        "category": "Kanboard",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "kanboard.createTask",
+        "title": "Create Task",
+        "category": "Kanboard",
+        "icon": "$(add)"
+      },
+      {
+        "command": "kanboard.openInBrowser",
+        "title": "Open in Browser",
+        "category": "Kanboard",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "kanboard.diagnostics",
+        "title": "Diagnostics (dump raw API responses)",
+        "category": "Kanboard"
+      },
+      {
+        "command": "kanboard.showTaskDetail",
+        "title": "Show Task Details",
+        "category": "Kanboard"
+      },
+      {
+        "command": "kanboard.moveTask",
+        "title": "Move to Column…",
+        "category": "Kanboard"
+      },
+      {
+        "command": "kanboard.closeTask",
+        "title": "Close Task",
+        "category": "Kanboard"
+      },
+      {
+        "command": "kanboard.filterMyTasks",
+        "title": "Filter My Tasks…",
+        "category": "Kanboard",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "kanboard.clearMyTasksFilter",
+        "title": "Clear My Tasks Filter",
+        "category": "Kanboard",
+        "icon": "$(filter-filled)"
+      },
+      {
+        "command": "kanboard.showTeamActivity",
+        "title": "Show Team Activity",
+        "category": "Kanboard",
+        "icon": "$(organization)"
+      },
+      {
+        "command": "kanboard.showMyActivityOnly",
+        "title": "Show Only My Activity",
+        "category": "Kanboard",
+        "icon": "$(account)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "kanboard.openInBrowser",
+          "when": "false"
+        },
+        {
+          "command": "kanboard.showTaskDetail",
+          "when": "false"
+        },
+        {
+          "command": "kanboard.moveTask",
+          "when": "false"
+        },
+        {
+          "command": "kanboard.closeTask",
+          "when": "false"
+        },
+        {
+          "command": "kanboard.clearMyTasksFilter",
+          "when": "kanboard.myTasksFiltered"
+        },
+        {
+          "command": "kanboard.filterMyTasks",
+          "when": "kanboard.connected"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "kanboard.refresh",
+          "when": "view =~ /^kanboard\\./",
+          "group": "navigation@9"
+        },
+        {
+          "command": "kanboard.createTask",
+          "when": "view == kanboard.myTasks",
+          "group": "navigation@1"
+        },
+        {
+          "command": "kanboard.filterMyTasks",
+          "when": "view == kanboard.myTasks && !kanboard.myTasksFiltered",
+          "group": "navigation@2"
+        },
+        {
+          "command": "kanboard.clearMyTasksFilter",
+          "when": "view == kanboard.myTasks && kanboard.myTasksFiltered",
+          "group": "navigation@2"
+        },
+        {
+          "command": "kanboard.showTeamActivity",
+          "when": "view == kanboard.activity && !kanboard.activityShowAll",
+          "group": "navigation@1"
+        },
+        {
+          "command": "kanboard.showMyActivityOnly",
+          "when": "view == kanboard.activity && kanboard.activityShowAll",
+          "group": "navigation@1"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "kanboard.openInBrowser",
+          "when": "view =~ /^kanboard\\./ && viewItem =~ /^(task|project|event)$/",
+          "group": "inline"
+        },
+        {
+          "command": "kanboard.moveTask",
+          "when": "view =~ /^kanboard\\./ && viewItem == task",
+          "group": "task@1"
+        },
+        {
+          "command": "kanboard.closeTask",
+          "when": "view =~ /^kanboard\\./ && viewItem == task",
+          "group": "task@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Kanboard",
+      "properties": {
+        "kanboard.url": {
+          "type": "string",
+          "default": "",
+          "description": "Base URL of your Kanboard instance (e.g. https://kanboard.example.com)"
+        },
+        "kanboard.username": {
+          "type": "string",
+          "default": "",
+          "description": "Your Kanboard username. The API token is stored securely in VS Code secret storage."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "@types/vscode": "^1.125.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.5.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1"
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.0.6"
+  },
+  "dependencies": {
+    "marked": "^18.0.6"
+  }
+}
